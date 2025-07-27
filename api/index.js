@@ -1,4 +1,15 @@
-// api/index.js
+const fs = require('fs');
+const path = require('path');
+
 module.exports = (req, res) => {
-  res.status(200).json({ message: 'Hello from Node.js on Vxercel!' });
+  const filePath = path.join(__dirname, '..', 'public', 'p.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      res.status(500).send('Error loading HTML file');
+      return;
+    }
+
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).send(data);
+  });
 };
